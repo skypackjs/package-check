@@ -25,7 +25,7 @@
     "quality",
     "lint"
   ],
-  "files": [],
+  "files": ["lib"],
   "author": "Fred K. Schott",
   "license": "MIT",
   "devDependencies": {
