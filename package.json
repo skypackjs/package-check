@@ -1,7 +1,7 @@
 {
-  "name": "@skypack/package-score",
-  "version": "0.0.2",
-  "description": "A quality score checker for npm packages",
+  "name": "@skypack/package-check",
+  "version": "0.1.0",
+  "description": "A quality score checker for npm packages.",
   "types": "lib/index.d.ts",
   "main": "lib/index.js",
   "exports": {
@@ -9,7 +9,7 @@
     "require": "./lib/index.js"
   },
   "bin": {
-    "package-score": "./index.bin.js"
+    "package-check": "./index.bin.js"
   },
   "publishConfig": {
     "access": "public"
@@ -42,10 +42,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/skypackjs/package-score.git"
+    "url": "git+https://github.com/skypackjs/package-check.git"
   },
   "bugs": {
-    "url": "https://github.com/skypackjs/package-score/issues"
+    "url": "https://github.com/skypackjs/package-check/issues"
   },
-  "homepage": "https://github.com/skypackjs/package-score#readme"
+  "homepage": "https://github.com/skypackjs/package-check#readme"
 }
