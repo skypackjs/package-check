@@ -1,6 +1,6 @@
 {
   "name": "@skypack/package-score",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A quality score checker for npm packages",
   "types": "lib/index.d.ts",
   "main": "lib/index.js",
@@ -25,7 +25,9 @@
     "quality",
     "lint"
   ],
-  "files": ["lib"],
+  "files": [
+    "lib"
+  ],
   "author": "Fred K. Schott",
   "license": "MIT",
   "devDependencies": {
