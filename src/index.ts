@@ -42,18 +42,24 @@ export async function cli() {
     title: 'ES Module Entrypoint',
     url: 'https://docs.skypack.dev/package-authors/package-checks#esm',
     pass: () => {
-      return (
-        (pkg.exports &&
-          !!(
-            pkg.exports['import'] ||
-            !!Object.values(pkg.exports).find(
-              (x: any) => typeof x === 'object' && x.import,
-            )
-          )) ||
-        !!pkg.module ||
-        pkg.type === 'module' ||
-        (typeof pkg.main === 'string' && pkg.main.endsWith('.mjs'))
-      );
+      if (pkg.type === 'module') {
+        return true;
+      }
+      if (pkg.module) {
+        return true;
+      }
+      if (typeof pkg.main === 'string' && pkg.main.endsWith('.mjs')) {
+        return true;
+      }
+      if (pkg.exports && (
+          pkg.exports['import'] ||
+          !!Object.values(pkg.exports).find(
+            (x: any) => typeof x === 'object' && x.import,
+          )
+        )) {
+          return true;
+        }
+      return false;
     },
   });
   // Check: Export Map
