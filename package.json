@@ -1,6 +1,6 @@
 {
   "name": "@skypack/package-check",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A quality score checker for npm packages.",
   "types": "lib/index.d.ts",
   "main": "lib/index.js",
