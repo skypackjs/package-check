@@ -13,3 +13,8 @@ yarn run package-check
 npm install @skypack/package-check --dev
 npx package-check
 ```
+
+
+## CLI Arguments
+
+- `--cwd [./pkg]`: Change the tested package directory. Defaults to your current working directory.
