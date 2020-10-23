@@ -120,7 +120,24 @@ export async function cli() {
     title: 'TypeScript Types',
     url: 'https://docs.skypack.dev/package-authors/package-checks#types',
     pass: () => {
-      return !!pkg.types || !!pkg.typings || !!pkg.typesVersions; 
+      const isOk = !!pkg.types || !!pkg.typings || !!pkg.typesVersions;
+      if (isOk) {
+        return true;
+      }
+      if (files.includes('index.d.ts')) {
+        console.error(
+          colors.yellow(
+            '"./index.d.ts" file found, but package.json "types" entry is missing.',
+          ),
+        );
+        console.error(
+          colors.yellow(
+            'Learn more about why this is still required: https://github.com/skypackjs/package-check/issues/6#issuecomment-714840634',
+          ),
+        );
+        return false;
+      }
+      return false;
     },
   });
   // Check: Has "README"
