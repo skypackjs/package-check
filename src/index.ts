@@ -17,16 +17,25 @@ function runCheck({ pass, title, url }) {
   }
 }
 
-const cwd = process.cwd();
-const packageJsonContents = fs.readFileSync(path.join(cwd, 'package.json'), {
-  encoding: 'utf-8',
-});
-const READMEContents = fs.readFileSync(path.join(cwd, 'README.md'), {
-  encoding: 'utf-8',
-});
-const pkg = JSON.parse(packageJsonContents);
-
 export async function cli() {
+  const cwd = process.cwd();
+  const files = fs.readdirSync(cwd);
+
+  // Check: Has a package.json
+  runCheck({
+    title: 'package.json',
+    url: 'https://docs.skypack.dev/package-authors/package-checks#esm',
+    pass: () => {
+      return !!files.includes('package.json');;
+    },
+  });
+
+  // Load package.json
+  const pkg = await fs.promises.readFile(path.join(cwd, 'package.json'), {
+    encoding: 'utf-8',
+  }).then((packageJsonContents) => JSON.parse(packageJsonContents));
+
+
   // Check: Has ESM
   runCheck({
     title: 'ES Module Entrypoint',
@@ -87,15 +96,6 @@ export async function cli() {
       return !!pkg.license;
     },
   });
-  // Check: Has "README"
-  runCheck({
-    title: 'README',
-    url: 'https://docs.skypack.dev/package-authors/package-checks#readme',
-
-    pass: () => {
-      return !!READMEContents;
-    },
-  });
   // Check: Has "repository url"
   runCheck({
     title: 'Repository URL',
@@ -114,6 +114,14 @@ export async function cli() {
     url: 'https://docs.skypack.dev/package-authors/package-checks#types',
     pass: () => {
       return !!pkg.types || !!pkg.typings; // `typings` is also valid according to TypeScript, even though `types` is preferred
+    },
+  });
+  // Check: Has "README"
+  runCheck({
+    title: 'README',
+    url: 'https://docs.skypack.dev/package-authors/package-checks#readme',
+    pass: () => {
+      return !!files.find((f) => /^readme\.?/i.test(f));
     },
   });
 
