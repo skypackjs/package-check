@@ -11,7 +11,7 @@ if (majorVer < 10) {
 
 const cli = require('./lib/index.js');
 const run = cli.run || cli.cli || cli.default;
-run(process.argv).catch(function (error) {
+run(process.argv.slice(2)).catch(function (error) {
   console.error(`
 ${error.stack || error.message || error}
 `);

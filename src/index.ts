@@ -1,14 +1,20 @@
 import fs from 'fs';
 import path from 'path';
+import yargs from 'yargs-parser';
 import * as colors from 'kleur/colors';
 import { repoURL } from './get-repo-url';
 
 function runCheck({ pass, title, url }) {
   try {
     const result = pass();
-    if (!result) {
-      console.error(colors.red('Check failed: '), title);
-      console.error(colors.yellow('How to fix: '), url);
+    if (result) {
+      console.error(colors.green(`✓`) + colors.dim(` ${title}`));
+
+    } else if (!result) {
+      console.error(colors.red(`✖ ${title}`));
+      console.error('');
+      console.error(colors.red('check failed:'), title);
+      console.error(colors.red('  how to fix:'), url);
       process.exit(1);
     }
   } catch (err) {
@@ -17,8 +23,9 @@ function runCheck({ pass, title, url }) {
   }
 }
 
-export async function cli() {
-  const cwd = process.cwd();
+export async function cli(args: string[]) {
+  const cliFlags = yargs(args, {});
+  const cwd = cliFlags.cwd ? path.resolve(cliFlags.cwd) : process.cwd();
   const files = fs.readdirSync(cwd);
 
   // Check: Has a package.json
@@ -51,14 +58,15 @@ export async function cli() {
       if (typeof pkg.main === 'string' && pkg.main.endsWith('.mjs')) {
         return true;
       }
-      if (pkg.exports && (
-          pkg.exports['import'] ||
+      if (
+        pkg.exports &&
+        (pkg.exports['import'] ||
           !!Object.values(pkg.exports).find(
             (x: any) => typeof x === 'object' && x.import,
-          )
-        )) {
-          return true;
-        }
+          ))
+      ) {
+        return true;
+      }
       return false;
     },
   });
@@ -155,7 +163,8 @@ export async function cli() {
     },
   });
 
-  console.error(
+  console.error('');
+    console.error(
     colors.green(`[100/100] ${pkg.name} passes all quality checks.`),
   );
 }
