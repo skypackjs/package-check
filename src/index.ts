@@ -120,7 +120,7 @@ export async function cli() {
     title: 'TypeScript Types',
     url: 'https://docs.skypack.dev/package-authors/package-checks#types',
     pass: () => {
-      return !!pkg.types || !!pkg.typings; // `typings` is also valid according to TypeScript, even though `types` is preferred
+      return !!pkg.types || !!pkg.typings || !!pkg.typesVersions; 
     },
   });
   // Check: Has "README"
