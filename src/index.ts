@@ -26,15 +26,16 @@ export async function cli() {
     title: 'package.json',
     url: 'https://docs.skypack.dev/package-authors/package-checks#esm',
     pass: () => {
-      return !!files.includes('package.json');;
+      return !!files.includes('package.json');
     },
   });
 
   // Load package.json
-  const pkg = await fs.promises.readFile(path.join(cwd, 'package.json'), {
-    encoding: 'utf-8',
-  }).then((packageJsonContents) => JSON.parse(packageJsonContents));
-
+  const pkg = await fs.promises
+    .readFile(path.join(cwd, 'package.json'), {
+      encoding: 'utf-8',
+    })
+    .then((packageJsonContents) => JSON.parse(packageJsonContents));
 
   // Check: Has ESM
   runCheck({
@@ -102,10 +103,16 @@ export async function cli() {
     url: 'https://docs.skypack.dev/package-authors/package-checks#repository',
     pass: () => {
       let repositoryUrl: string | undefined;
-      if (pkg.repository && pkg.repository.url) {
-        repositoryUrl = repoURL(pkg.repository.url);
+      if (!pkg.repository) {
+        return false;
       }
-      return !!repositoryUrl;
+      if (typeof pkg.repository === 'string') {
+        return true;
+      }
+      if (pkg.repository.url) {
+        return !!new URL(repoURL(pkg.repository.url));
+      }
+      return false;
     },
   });
   // Check: Has types
