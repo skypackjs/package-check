@@ -83,7 +83,7 @@ export async function cli(args: string[]) {
     title: 'No Unnecessary Files',
     url: 'https://docs.skypack.dev/package-authors/package-checks#files',
     pass: () => {
-      return !!pkg.files;
+      return !!pkg.files || !!files.includes('.npmignore');
     },
   });
   // Check: Has "keywords"
