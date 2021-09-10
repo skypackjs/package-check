@@ -27,7 +27,10 @@ export async function cli(args: string[]) {
   const cliFlags = yargs(args, {});
   const cwd = cliFlags.cwd ? path.resolve(cliFlags.cwd) : process.cwd();
   const files = fs.readdirSync(cwd);
-
+  
+  // print the working directory
+  console.error(colors.dim(`checking: ${cwd}`));
+  
   // Check: Has a package.json
   runCheck({
     title: 'package.json',
