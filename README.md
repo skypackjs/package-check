@@ -11,7 +11,7 @@ yarn run package-check
 ```
 # npm (run this in your package directory)
 npm install @skypack/package-check --dev
-npx package-check
+npx @skypack/package-check
 ```
 
 
